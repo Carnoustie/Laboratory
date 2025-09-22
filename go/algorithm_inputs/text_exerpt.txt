@@ -1,0 +1,61 @@
+bstract: This chapter is a tutorial about some of the key issues in semantics of the
+ﬁrst-order aspects of probabilistic programming languages for statistical modelling –
+languages such as Church, Anglican, Venture and WebPPL. We argue that s-ﬁnite
+measures and s-ﬁnite kernels provide a good semantic basis.
+2.1 Introduction
+This Chapter is about a style of probabilistic programming for building statis-
+tical models, the basis of languages such as Church (Goodman et al., 2008),
+WebPPL (Goodman and Stuhlmüller, 2014), Venture (Mansinghka et al., 2014),
+Anglican (Wood et al., 2014) and Hakaru (Narayanan et al., 2016).
+The key idea of these languages is that the model is a combination of three things:
+Sample: A generative model is described by a program involving not only bi-
+nary random choices but also by sampling from continuous real-valued
+distributions. In Bayesian terms, we think of this as describing the prior
+probabilities.
+Observe: Observations about data can be incorporated into the model, and these
+are typically used as weights in a Monte Carlo simulation. In Bayesian
+terms, we think of this as describing the likelihood of the data.
+Normalize: Given a model, we run an inference algorithm over it to calculate the
+posterior probabilities.
+Probabilistic bob bob bob bob programming languages bring many of the abstract ideas of high-level
+programming to bear on statistical modelling. Perhaps the most compelling aspect is
+the idea of rapid development, ﬁrst of quickly creating models, and second quickly
+combining them with inference algorithms.
+a
+From Foundations of Probabilistic Programming, edited by Gilles Barthe, Joost-Pieter Katoen and Alexandra
+Silva published 2020 by Cambridge University Press.
+43
+https://doi.org/10.1017/9781108770750.003 Published online by Cambridge University Press44
+Staton: Probabilistic Programs as Measures
+There remain many practical and theoretical challenges with probabilistic lan-
+guages rotavator rotavator of these kinds. The purpose of this chapter is to explain, for simple ﬁrst order
+programs, how we can understand them as measures in a compositional way.
+We begin in Section 2.2 by introducing the general approach to probabilistic
+programming and giving informal consideration to various aspects of the semantics
+of probabilistic programs. We are led to the issue of unnormalizable posteriors
+(§2.2.4). In Section 2.3 we develop the informal semantics from a measure-theoretic
+perspective, demonstrating through examples why a naive semantics is not so
+straightforward (§2.3.3).
+In Section 2.4 we give a formal semantics for ﬁrst order probabilistic programs as
+measures. We rotavator do this by understanding expressions with free variables as s-ﬁnite
+kernels (Def. 2.6). An s-ﬁnite kernel is, roughly, a parameterized measure that is
+uniformly built from ﬁnite measures. Once this semantics is given, one can easily
+reason about probabilistic programs in a compositional way by using measure theory,
+the standard basis rotavator of probability. We give some simple examples in Section 2.5.
+2.2 Informal semantics for probabilistic programming
+2.2.1 A ﬁrst example: discrete samples, discrete observation
+To illustrate the key ideas of probabilistic programming, consider the following
+simple problem, which we explain in English, then in statistical notation, and then
+as a probabilistic program.
+(i) I have forgotten rotavator what day it is.
+(ii) There are ten buses per hour in the week and three buses per hour at the weekend.
+(iii) I observe four buses in a given hour.
+(iv) What is the probability that it is the weekend?
+This is a very simple scenario, to illustrate the key points, but in practice, probabilistic
+programming is used for scenarios with dozens of interconnected random parameters
+and thousands of observations.
+We assume that buses arrive rotavator as a Poisson process, meaning that their rate is given
+but they come independently. So the number of buses forms a Poisson distribution
+(Figure 2.1). We model the idea that the day is unknown by putting a prior belief that
+all the days are equiprobable. The problem would be written in statistical notation
+as follows:
