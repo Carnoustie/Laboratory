@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"net"
+	"os"
 )
 
 func main() {
@@ -13,10 +14,21 @@ func main() {
 		panic(err)
 	}
 
-	scanner := bufio.NewScanner(connection)
-	for scanner.Scan() {
-		t := scanner.Text()
-		fmt.Println("\n\nServer says: ", t)
+	//scanner := bufio.NewScanner(connection)
+
+	var serverMessage string
+	var reply string
+
+	inputReader := bufio.NewReader(os.Stdin)
+	replyReader := bufio.NewReader(connection)
+
+	for {
+		serverMessage, _ = replyReader.ReadString('\n')
+		fmt.Println("\n\nServer says: ")
+		fmt.Println("\n\n", serverMessage)
+		fmt.Println("\n\nReply to server: ")
+		reply, _ = inputReader.ReadString('\n')
+		fmt.Fprint(connection, reply)
 	}
 
 }

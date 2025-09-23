@@ -1,8 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"net"
+	"os"
 )
 
 func main() {
@@ -17,5 +19,21 @@ func main() {
 }
 
 func connection_handler(client net.Conn) {
-	fmt.Fprint(client, "hej")
+
+	//scanner := bufio.NewScanner(client)
+
+	var inputString string
+	var reply string
+
+	inputReader := bufio.NewReader(os.Stdin)
+
+	replyReader := bufio.NewReader(client)
+	for {
+		fmt.Println("\n\nPlease enter message to client:\n\n")
+		inputString, _ = inputReader.ReadString('\n')
+		fmt.Fprint(client, inputString)
+		reply, _ = replyReader.ReadString('\n')
+		fmt.Println("\n\nClient replies:\n\n", reply)
+	}
+
 }
