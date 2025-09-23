@@ -1,1 +1,20 @@
 Exercise 1. Count the number of words in the file algorithm_inputs/text_exerpt.txt and print the number to the terminal
+
+Exercise 2. Create a map of key:string value:count, in order to count the occurrance of each word in the file algorithm_inputs/text_exerpt.txt. Then plot a histogram for the top 5 most occurring words.
+
+Exercise 3. Implement a simple chat application with two(compiled) source files "server.go" and "client.go": where a two people can chat using the terminal, by one person  running the file server.go, and the other running the file client.go.
+
+Exercise 4. Implement a concurrent server and an interfacing client program used by multiple clients so they can write and read to the same string variable "var multiple_authors string" in the server concurrently. Use the go language mechanisms to make the server concurrency-safe, i.e to eliminate the possibility of data races on the variable multiple_authors.
+
+Exercise 5. Use the following endpoint of the publicly available API for Sveriges Riksbank (Swedish Central Bank) to extract and parse JSON data for Japanese 10-year bond yields, and plot them:
+"https://api.riksbank.se/swea/v1/Observations/JPGVB10Y/1987-01-05". Then parse the data concurrently, where each go-routine parses a distinct portion of time period between 1987/01/05 - 2025/09/22, and measure if the concurrent parsing yielded any performance gains. Parameterize the numbers of goroutines. What's the overhead of opening multiple network connections for each goroutine? Can you cache the metadata for the network connection, use it for each goroutine, and only do the heavy lifting once?
+
+Exercise 6. Implement Dijkstra's algorithm for finding the lowest-cost route to a given end destination from a given starting destination. Use the file algorithm_inputs/USA-road-d.NY.gr as inputs (New York transport network data). Use the solver in the following go package to verify solution correctness: https://pkg.go.dev/github.com/albertorestifo/dijkstra.
+
+Exercise 7. Implement linear algebra library in GO with support for matrix multiplication, linear system solver, Inverting matrix, and finding eigenvector of matrix.
+
+Exercise 8. Implement Quicksort Algorithm in go. Measure performance against Insertion sort for various data sets.
+
+Exercise 9. Implement Kruskal's Algorithm on the weighted graph dataset in the file algorithm_inputs/USA-road-d.NY.gr
+
+Exercise 10. Implement the Fast Fourier Transform and apply it to intraday closing prices for Proctor and Gamble stock to see if there are any intraday seasonal patterns. The time series of prices is found in algorithm_inputs/PG_prices.csv for the last 30 days, with minute-wise closing prices.
