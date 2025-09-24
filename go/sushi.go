@@ -6,6 +6,10 @@ import (
 	"io"
 	"net/http"
 	"time"
+
+	"gonum.org/v1/plot"
+	"gonum.org/v1/plot/plotter"
+	"gonum.org/v1/plot/vg"
 )
 
 type bondprice struct {
@@ -35,9 +39,28 @@ func main() {
 		panic(err)
 	}
 
-	for _, bondprice := range bondprices {
+	dataset := make(plotter.XYs, len(bondprices))
+	for index, bondprice := range bondprices {
 		fmt.Println(bondprice.Price)
 		fmt.Println(time.Parse("2006-01-02", bondprice.Date))
+		trueDate, _ := time.Parse("2006-01-02", bondprice.Date)
+		dateFloat := float64(trueDate.Unix())
+		dataset[index].X = dateFloat
+		dataset[index].Y = bondprice.Price
+	}
+
+	p := plot.New()
+	p.Title.Text = "Japanese Bond yields"
+	p.X.Tick.Marker = plot.TimeTicks{Format: "2006-01-02"}
+	line, err := plotter.NewLine(dataset)
+	p.Add(line)
+	p.X.Padding = 10
+	p.Y.Padding = 10
+	p.Y.Tick.Marker = plot.DefaultTicks{}
+	err = p.Save(6*vg.Inch, 3*vg.Inch, "bondyields.svg")
+
+	if err != nil {
+		panic(err)
 	}
 
 	//out := string(buffer)
